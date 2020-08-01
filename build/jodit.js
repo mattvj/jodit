@@ -1,7 +1,7 @@
 /*!
  * jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
  * Author: Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)
- * Version: v3.4.15
+ * Version: v3.4.15.1
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
  */
@@ -4385,7 +4385,7 @@ var View = (function (_super) {
         var _this = _super.call(this) || this;
         _this.isView = true;
         _this.components = new Set();
-        _this.version = "3.4.15";
+        _this.version = "3.4.15.1";
         _this.async = new async_1.Async();
         _this.buffer = storage_1.Storage.makeStorage();
         _this.__isFullSize = false;
@@ -5820,15 +5820,19 @@ function paste(editor) {
                                 }
                             }
                             if (method === constants_1.INSERT_AS_TEXT) {
+                                console.log('Cleaning From Word');
                                 html = helpers_1.cleanFromWord(html);
                             }
                             if (method === constants_1.INSERT_ONLY_TEXT) {
+                                console.log('Inserting only Text');
                                 html = helpers_1.stripTags(helpers_1.cleanFromWord(html));
                             }
+                            console.log("Got Html", html);
                             editor.s.insertHTML(html);
                             editor.setEditorValue();
                         };
                         if (opt.askBeforePasteFromWord) {
+                            console.log("Before Paste Word");
                             clearOrKeep(editor.i18n('The pasted content is coming from a Microsoft Word/Excel document. ' +
                                 'Do you want to keep the format or clean it up?'), editor.i18n('Word Paste Detected'), function (agree) {
                                 var insertType = constants_1.INSERT_AS_HTML;
@@ -5838,10 +5842,12 @@ function paste(editor) {
                                 if (agree === 0) {
                                     insertType = constants_1.INSERT_ONLY_TEXT;
                                 }
+                                console.log("Pasting", insertType);
                                 pasteFromWordByType_1(insertType);
                             });
                         }
                         else {
+                            console.log("Pasting", opt.defaultActionOnPaste);
                             pasteFromWordByType_1(opt.defaultActionOnPaste);
                         }
                     }
