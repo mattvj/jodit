@@ -344,18 +344,23 @@ export function paste(editor: IJodit): void {
 							}
 
 							if (method === INSERT_AS_TEXT) {
+								console.log('Cleaning From Word');
 								html = cleanFromWord(html);
 							}
 
 							if (method === INSERT_ONLY_TEXT) {
+								console.log('Inserting only Text');
 								html = stripTags(cleanFromWord(html));
 							}
+
+							console.log("Got Html", html);
 
 							editor.s.insertHTML(html);
 							editor.setEditorValue();
 						};
 
 						if (opt.askBeforePasteFromWord) {
+							console.log("Before Paste Word");
 							clearOrKeep(
 								editor.i18n(
 									'The pasted content is coming from a Microsoft Word/Excel document. ' +
@@ -374,10 +379,12 @@ export function paste(editor: IJodit): void {
 										insertType = INSERT_ONLY_TEXT;
 									}
 
+									console.log("Pasting", insertType);
 									pasteFromWordByType(insertType);
 								}
 							);
 						} else {
+							console.log("Pasting", opt.defaultActionOnPaste);
 							pasteFromWordByType(opt.defaultActionOnPaste);
 						}
 					} else {
