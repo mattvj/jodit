@@ -26,7 +26,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/mattvj/jodit.git"
+		"url": "git+https://github.com/mattvj/jodit.git#3.4.15.2"
 	},
 	"keywords": [
 		"wysiwyg",
