@@ -327,6 +327,7 @@ export function paste(editor: IJodit): void {
 					buffer !== trimFragment(html)
 				) {
 					if (opt.processPasteFromWord && isHtmlFromWord(html)) {
+						console.log('Is Word');
 						const pasteFromWordByType = (method: string) => {
 							if (method === INSERT_AS_HTML) {
 								html = applyStyles(html);
@@ -379,7 +380,7 @@ export function paste(editor: IJodit): void {
 										insertType = INSERT_ONLY_TEXT;
 									}
 
-									console.log("Pasting", insertType);
+									console.log("Ask Pasting", insertType);
 									pasteFromWordByType(insertType);
 								}
 							);
@@ -396,6 +397,7 @@ export function paste(editor: IJodit): void {
 			};
 
 			if (dt.types && Array.from(dt.types).includes(TEXT_HTML)) {
+				console.log('DT Types Includes TEXT_HTML');
 				return processHTMLData(dt.getData(TEXT_HTML));
 			}
 
@@ -437,6 +439,7 @@ export function paste(editor: IJodit): void {
 
 						removeFakeFocus();
 
+						console.log('Wait Data Fake Focus');
 						if (processHTMLData(pastedData) !== false) {
 							editor.s.insertHTML(pastedData);
 						}
@@ -456,6 +459,7 @@ export function paste(editor: IJodit): void {
 		}
 
 		if (dt.getData(TEXT_PLAIN)) {
+			console.log('Plain Text');
 			return insertHTML(dt.getData(TEXT_PLAIN), event);
 		}
 	};
