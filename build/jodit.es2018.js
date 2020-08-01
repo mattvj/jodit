@@ -1,7 +1,7 @@
 /*!
  * jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
  * Author: Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)
- * Version: v3.4.15.2
+ * Version: v3.4.16
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
  */
@@ -12315,7 +12315,7 @@ class view_View extends core_component["a" /* Component */] {
         super();
         this.isView = true;
         this.components = new Set();
-        this.version = "3.4.15.2";
+        this.version = "3.4.16";
         this.async = new async_Async();
         this.buffer = storage_Storage.makeStorage();
         this.__isFullSize = false;
