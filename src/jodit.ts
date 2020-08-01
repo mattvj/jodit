@@ -1051,8 +1051,9 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 	 * @param {object} options Editor's options
 	 */
 	constructor(element: HTMLElement | string, options?: object) {
-		console.log("Constructing");
 		super(options as IViewOptions);
+
+		console.log('Constructing');
 
 		try {
 			resolveElement(element, this.o.shadowRoot || this.od); // check element valid
