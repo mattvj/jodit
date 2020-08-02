@@ -90,6 +90,10 @@ export function cleanFromWord(html: string): string {
 		.filter(trim)
 		.join('\n');
 
+	console.log('Returning Word HTML', html
+		.replace(/<(\/)?(html|colgroup|col|o:p)[^>]*>/g, '')
+		.replace(/<!--[^>]*>/g, ''));
+
 	return html
 		.replace(/<(\/)?(html|colgroup|col|o:p)[^>]*>/g, '')
 		.replace(/<!--[^>]*>/g, '');

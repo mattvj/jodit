@@ -333,6 +333,7 @@ export function paste(editor: IJodit): void {
 								html = applyStyles(html);
 
 								if (opt.beautifyHTML) {
+									console.log("Is beautifying");
 									const value = editor.events?.fire(
 										'beautifyHTML',
 										html
