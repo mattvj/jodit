@@ -1,7 +1,7 @@
 /*!
  * jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
  * Author: Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)
- * Version: v3.4.18
+ * Version: v3.4.21
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
  */
@@ -548,6 +548,9 @@ function cleanFromWord(html) {
         .split(/(\n)/)
         .filter(string["f" /* trim */])
         .join('\n');
+    console.log('Returning Word HTML', html
+        .replace(/<(\/)?(html|colgroup|col|o:p)[^>]*>/g, '')
+        .replace(/<!--[^>]*>/g, ''));
     return html
         .replace(/<(\/)?(html|colgroup|col|o:p)[^>]*>/g, '')
         .replace(/<!--[^>]*>/g, '');
@@ -12315,7 +12318,7 @@ class view_View extends core_component["a" /* Component */] {
         super();
         this.isView = true;
         this.components = new Set();
-        this.version = "3.4.18";
+        this.version = "3.4.21";
         this.async = new async_Async();
         this.buffer = storage_Storage.makeStorage();
         this.__isFullSize = false;
@@ -20472,11 +20475,13 @@ function paste(editor) {
                     Object(helpers["isHTML"])(html) &&
                     buffer !== trimFragment(html)) {
                     if (opt.processPasteFromWord && Object(helpers["isHtmlFromWord"])(html)) {
+                        console.log('Is Word');
                         const pasteFromWordByType = (method) => {
                             var _a;
                             if (method === constants["INSERT_AS_HTML"]) {
                                 html = Object(helpers["applyStyles"])(html);
                                 if (opt.beautifyHTML) {
+                                    console.log("Is beautifying");
                                     const value = (_a = editor.events) === null || _a === void 0 ? void 0 : _a.fire('beautifyHTML', html);
                                     if (Object(helpers["isString"])(value)) {
                                         html = value;
@@ -20506,7 +20511,7 @@ function paste(editor) {
                                 if (agree === 0) {
                                     insertType = constants["INSERT_ONLY_TEXT"];
                                 }
-                                console.log("Pasting", insertType);
+                                console.log("Ask Pasting", insertType);
                                 pasteFromWordByType(insertType);
                             });
                         }
@@ -20522,6 +20527,7 @@ function paste(editor) {
                 }
             };
             if (dt.types && Array.from(dt.types).includes(constants["TEXT_HTML"])) {
+                console.log('DT Types Includes TEXT_HTML');
                 return processHTMLData(dt.getData(constants["TEXT_HTML"]));
             }
             if (event.type !== 'drop') {
@@ -20553,6 +20559,7 @@ function paste(editor) {
                     if (div.childNodes && div.childNodes.length > 0) {
                         const pastedData = div.innerHTML;
                         removeFakeFocus();
+                        console.log('Wait Data Fake Focus');
                         if (processHTMLData(pastedData) !== false) {
                             editor.s.insertHTML(pastedData);
                         }
@@ -20569,6 +20576,7 @@ function paste(editor) {
             }
         }
         if (dt.getData(constants["TEXT_PLAIN"])) {
+            console.log('Plain Text');
             return insertHTML(dt.getData(constants["TEXT_PLAIN"]), event);
         }
     };

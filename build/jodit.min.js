@@ -1,7 +1,7 @@
 /*!
  * jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
  * Author: Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)
- * Version: v3.4.18
+ * Version: v3.4.21
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
  */
@@ -4385,7 +4385,7 @@ var View = (function (_super) {
         var _this = _super.call(this) || this;
         _this.isView = true;
         _this.components = new Set();
-        _this.version = "3.4.18";
+        _this.version = "3.4.21";
         _this.async = new async_1.Async();
         _this.buffer = storage_1.Storage.makeStorage();
         _this.__isFullSize = false;
@@ -5808,11 +5808,13 @@ function paste(editor) {
                     helpers_1.isHTML(html) &&
                     buffer !== trimFragment(html)) {
                     if (opt.processPasteFromWord && helpers_1.isHtmlFromWord(html)) {
+                        console.log('Is Word');
                         var pasteFromWordByType_1 = function (method) {
                             var _a;
                             if (method === constants_1.INSERT_AS_HTML) {
                                 html = helpers_1.applyStyles(html);
                                 if (opt.beautifyHTML) {
+                                    console.log("Is beautifying");
                                     var value = (_a = editor.events) === null || _a === void 0 ? void 0 : _a.fire('beautifyHTML', html);
                                     if (helpers_1.isString(value)) {
                                         html = value;
@@ -5842,7 +5844,7 @@ function paste(editor) {
                                 if (agree === 0) {
                                     insertType = constants_1.INSERT_ONLY_TEXT;
                                 }
-                                console.log("Pasting", insertType);
+                                console.log("Ask Pasting", insertType);
                                 pasteFromWordByType_1(insertType);
                             });
                         }
@@ -5858,6 +5860,7 @@ function paste(editor) {
                 }
             };
             if (dt.types && Array.from(dt.types).includes(constants_1.TEXT_HTML)) {
+                console.log('DT Types Includes TEXT_HTML');
                 return processHTMLData_1(dt.getData(constants_1.TEXT_HTML));
             }
             if (event.type !== 'drop') {
@@ -5889,6 +5892,7 @@ function paste(editor) {
                     if (div_1.childNodes && div_1.childNodes.length > 0) {
                         var pastedData = div_1.innerHTML;
                         removeFakeFocus_1();
+                        console.log('Wait Data Fake Focus');
                         if (processHTMLData_1(pastedData) !== false) {
                             editor.s.insertHTML(pastedData);
                         }
@@ -5905,6 +5909,7 @@ function paste(editor) {
             }
         }
         if (dt.getData(constants_1.TEXT_PLAIN)) {
+            console.log('Plain Text');
             return insertHTML(dt.getData(constants_1.TEXT_PLAIN), event);
         }
     };
@@ -10370,6 +10375,9 @@ function cleanFromWord(html) {
         .split(/(\n)/)
         .filter(string_1.trim)
         .join('\n');
+    console.log('Returning Word HTML', html
+        .replace(/<(\/)?(html|colgroup|col|o:p)[^>]*>/g, '')
+        .replace(/<!--[^>]*>/g, ''));
     return html
         .replace(/<(\/)?(html|colgroup|col|o:p)[^>]*>/g, '')
         .replace(/<!--[^>]*>/g, '');
