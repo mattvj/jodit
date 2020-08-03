@@ -5630,6 +5630,13 @@ exports.getDataTransfer = function (event) {
         return null;
     }
 };
+function pasteInsertHtml(editor, html) {
+    var result = editor.e.fire('beforePasteInsert', html);
+    if (result !== false && (typeof result === 'string' || typeof result === 'number' || result instanceof Node)) {
+        html = result;
+    }
+    editor.s.insertHTML(html);
+}
 config_1.Config.prototype.controls.paste = {
     tooltip: 'Paste from clipboard',
     exec: function (editor) {
@@ -5683,7 +5690,7 @@ config_1.Config.prototype.controls.paste = {
                             error = value !== editor.value;
                         }
                         if (text) {
-                            editor.s.insertHTML(text);
+                            pasteInsertHtml(editor, text);
                         }
                         else {
                             if (error) {
@@ -5754,7 +5761,7 @@ function paste(editor) {
         if (helpers_1.isString(html)) {
             editor.buffer.set(cut_1.pluginKey, html);
         }
-        editor.s.insertHTML(html);
+        pasteInsertHtml(editor, html);
     };
     var insertHTML = function (html, event) {
         var buffer = editor.buffer.get(cut_1.pluginKey);
@@ -5825,7 +5832,7 @@ function paste(editor) {
                             if (method === constants_1.INSERT_ONLY_TEXT) {
                                 html = helpers_1.stripTags(helpers_1.cleanFromWord(html));
                             }
-                            editor.s.insertHTML(html);
+                            pasteInsertHtml(editor, html);
                             editor.setEditorValue();
                         };
                         if (opt.askBeforePasteFromWord) {
@@ -5884,7 +5891,7 @@ function paste(editor) {
                         var pastedData = div_1.innerHTML;
                         removeFakeFocus_1();
                         if (processHTMLData_1(pastedData) !== false) {
-                            editor.s.insertHTML(pastedData);
+                            pasteInsertHtml(editor, pastedData);
                         }
                         return;
                     }
